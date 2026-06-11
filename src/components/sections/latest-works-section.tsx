@@ -3,11 +3,68 @@
 import React, { useState, useEffect } from "react";
 import { motion, useSpring, useTransform, useMotionValue, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { PlaceHolderImages as placeholderImages } from "@/lib/placeholder-images"; 
+import { PlaceHolderImages as placeholderImages } from "@/lib/placeholder-images";
 import { Badge } from "@/components/ui/badge";
+import { Slider } from "@radix-ui/react-slider";
 
 // --- DATA ---
 const projects = [
+  {
+    id: "morningmute-project",
+    title: "MorningMute AI Email Assistant",
+    subtitle: "React, Node.js, MongoDB, Gmail API",
+    description: "Developed an AI-powered email management platform with Gmail integration, email prioritization, smart categorization, and AI-generated replies. Implemented Docker-based deployments, AWS hosting, and automated CI/CD pipelines using GitHub Actions.",
+    tags: ["#React", "#NodeJS", "#Docker", "#AWS"],
+    imageSide: "left",
+    markerType: "filled",
+    slides: [
+      placeholderImages.find(p => p.id === 'morningmute-project')?.src || "/mr-1.png",
+      "/mr-2.png",
+      "/mr-3.png",
+      "/mr-4.png",
+      "/mr-5.png",
+      "/mr-6.png",
+      "/mr-7.png",
+    ],
+    themeColor: "#b800a5",
+    link: "https://github.com/nithig/email-agent-frontend",
+  },
+  {
+    id: "decivise-project",
+    title: "Decivise Authentication Platform",
+    subtitle: "React, Node.js, MongoDB, OTP Services",
+    description: "Built a SaaS authentication platform providing Mobile OTP, Email OTP, WhatsApp OTP, and Magic Link authentication. Developed secure verification workflows, REST APIs, developer dashboards, and API playgrounds for seamless authentication integration.",
+    tags: ["#React", "#NodeJS", "#MongoDB", "#Authentication"],
+    imageSide: "right",
+    markerType: "filled",
+    slides: [
+      placeholderImages.find(p => p.id === 'decivise-project')?.src || "/decivise-1.png",
+      "/decivise-2.png",
+      "/decivise-3.png",
+      "/decivise-4.png",
+      "/decivise-5.png",
+      "/decivise-6.png",
+      "/decivise-7.png",
+    ],
+    themeColor: "#b5b209",
+    link: "https://github.com/nithig/decivise",
+  },
+  {
+    id: "finsight-project",
+    title: "Finsight AI Finance Tracker",
+    subtitle: "React, Node.js, MongoDB, Gemini AI",
+    description: "Built an AI-powered personal finance platform that helps users track expenses, analyze spending habits, and gain financial insights. Integrated AI-driven transaction categorization, statement imports, interactive dashboards, and secure account management for smarter financial planning.",
+    tags: ["#React", "#NodeJS", "#MongoDB", "#GeminiAI"],
+    imageSide: "right",
+    markerType: "filled",
+    slides: [
+      placeholderImages.find(p => p.id === 'finsight-project')?.src || "/fs-1.png",
+      "/fs-2.png",
+      "/fs-3.png",
+    ],
+    themeColor: "#ff0000",
+    link: "https://finsight-ai-2ri7.onrender.com/",
+  },
   {
     id: "ai-advisor-project",
     title: "Voice-Activated AI Advisor",
@@ -18,6 +75,7 @@ const projects = [
     markerType: "hollow",
     image: placeholderImages.find(p => p.id === 'portfolio-project')?.src || "/placeholder.png",
     themeColor: "#3B82F6", // Blue
+    link: "",
   },
   {
     id: "marketplace-project",
@@ -28,11 +86,12 @@ const projects = [
     imageSide: "right",
     markerType: "filled",
     slides: [
-        placeholderImages.find(p => p.id === 'marketplace-project')?.src || "/lg.png",
-        "/lg_2.png",
-        "/lg_3.png",
+      placeholderImages.find(p => p.id === 'marketplace-project')?.src || "/lg.png",
+      "/lg_2.png",
+      "/lg_3.png",
     ],
     themeColor: "#10B981", // Emerald
+    link: "",
   },
   {
     id: "ecommerce-project",
@@ -44,70 +103,72 @@ const projects = [
     markerType: "filled",
     image: placeholderImages.find(p => p.id === 'ecommerce-project')?.src || "/pro.png",
     themeColor: "#06B6D4", // Cyan
+    link: "https://gnithish-portfolio.vercel.app/",
   },
   {
     id: "coming-soon-project",
     title: "Upcoming MERN Stack Project",
     subtitle: "Full Stack Architecture",
-    description: "I'm currently architecting a new, full-stack MERN application with a React.js 16 frontend. Focusing on scalable real-time features. Code coming soon!",
+    description: "I'm currently architecting a new, full-stack MERN application with a Next.js frontend. Focusing on scalable real-time features. Code coming soon!",
     tags: ["#Ongoing", "#MERN Stack", "#Next.js"],
     imageSide: "right",
     markerType: "hollow",
     image: placeholderImages.find(p => p.id === 'coming-soon-project')?.src || "/placeholder.png",
     themeColor: "#A855F7", // Purple
+    link: "",
   },
 ];
 
 // --- UPDATED SLIDING CAROUSEL ---
 const ImageCarousel = ({ slides, alt }: { slides: string[], alt: string }) => {
-    const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentIndex((prev) => (prev + 1) % slides.length);
-        }, 3500); // Increased slightly for better viewing time
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % slides.length);
+    }, 3500); // Increased slightly for better viewing time
 
-        return () => clearInterval(timer);
-    }, [slides.length]);
+    return () => clearInterval(timer);
+  }, [slides.length]);
 
-    return (
-        // Added overflow-hidden to clip the sliding images
-        <div className="relative w-full h-full overflow-hidden rounded-lg">
-            <AnimatePresence initial={false} mode="popLayout">
-                <motion.div
-                    key={currentIndex}
-                    // Slide Animation Logic
-                    initial={{ x: "100%" }}
-                    animate={{ x: 0 }}
-                    exit={{ x: "-100%" }}
-                    transition={{ 
-                        type: "spring", 
-                        stiffness: 300, 
-                        damping: 30,
-                        mass: 1
-                    }}
-                    className="absolute inset-0 w-full h-full"
-                >
-                    <Image
-                        src={slides[currentIndex]}
-                        alt={`${alt} - Slide ${currentIndex + 1}`}
-                        fill
-                        className="object-cover"
-                    />
-                </motion.div>
-            </AnimatePresence>
-            
-            {/* Dots Indicator */}
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-                {slides.map((_, idx) => (
-                    <div 
-                        key={idx} 
-                        className={`w-1.5 h-1.5 rounded-full transition-all duration-300 shadow-sm ${idx === currentIndex ? 'bg-white w-4' : 'bg-white/40'}`}
-                    />
-                ))}
-            </div>
-        </div>
-    );
+  return (
+    // Added overflow-hidden to clip the sliding images
+    <div className="relative w-full h-full overflow-hidden rounded-lg">
+      <AnimatePresence initial={false} mode="popLayout">
+        <motion.div
+          key={currentIndex}
+          // Slide Animation Logic
+          initial={{ x: "100%" }}
+          animate={{ x: 0 }}
+          exit={{ x: "-100%" }}
+          transition={{
+            type: "spring",
+            stiffness: 300,
+            damping: 30,
+            mass: 1
+          }}
+          className="absolute inset-0 w-full h-full"
+        >
+          <Image
+            src={slides[currentIndex]}
+            alt={`${alt} - Slide ${currentIndex + 1}`}
+            fill
+            className="object-cover"
+          />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Dots Indicator */}
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+        {slides.map((_, idx) => (
+          <div
+            key={idx}
+            className={`w-1.5 h-1.5 rounded-full transition-all duration-300 shadow-sm ${idx === currentIndex ? 'bg-white w-4' : 'bg-white/40'}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
 };
 
 
@@ -115,60 +176,81 @@ const ProjectItem = ({ project, index }: { project: any, index: number }) => {
   const isEven = index % 2 === 0;
   const hasCarousel = project.slides && project.slides.length > 0;
 
+  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!project.link) return;
+    const target = e.target as HTMLElement;
+    if (target.closest && target.closest('a')) return;
+    window.open(project.link, '_blank', 'noopener noreferrer');
+  };
+
+  const handleCardKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!project.link) return;
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      window.open(project.link, '_blank', 'noopener noreferrer');
+    }
+  };
+
   return (
-    <div className="group/project relative flex flex-col md:grid md:grid-cols-2 md:gap-8 items-center mb-24 last:mb-0 z-10 w-full">
-      
+    <div
+      role={project.link ? 'link' : undefined}
+      tabIndex={project.link ? 0 : undefined}
+      onClick={handleCardClick}
+      onKeyDown={handleCardKey}
+      className={`group/project relative flex flex-col md:grid md:grid-cols-2 md:gap-8 items-center mb-24 last:mb-0 z-10 w-full ${project.link ? 'cursor-pointer' : ''}`}
+    >
+
       {/* Timeline Marker */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:block z-20">
-        <div 
-            className="w-4 h-4 rounded-full border-2 bg-background transition-all duration-500 ease-out group-hover/project:scale-[1.8] group-hover/project:border-opacity-0" 
-            style={{ 
-                borderColor: project.themeColor,
-                boxShadow: `0 0 10px ${project.themeColor}40`
-            }}
+        <div
+          className="w-4 h-4 rounded-full border-2 bg-background transition-all duration-500 ease-out group-hover/project:scale-[1.8] group-hover/project:border-opacity-0"
+          style={{
+            borderColor: project.themeColor,
+            boxShadow: `0 0 10px ${project.themeColor}40`
+          }}
         >
-            <div className="w-full h-full rounded-full opacity-0 group-hover/project:opacity-100 transition-all duration-300 scale-0 group-hover/project:scale-100"
-                 style={{ backgroundColor: project.themeColor, boxShadow: `0 0 20px 4px ${project.themeColor}` }}
-            ></div>
+          <div className="w-full h-full rounded-full opacity-0 group-hover/project:opacity-100 transition-all duration-300 scale-0 group-hover/project:scale-100"
+            style={{ backgroundColor: project.themeColor, boxShadow: `0 0 20px 4px ${project.themeColor}` }}
+          ></div>
         </div>
       </div>
 
       {/* Content */}
       <motion.div
-        initial={{ opacity: 0, y: 30 }} 
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.8 }}
         className={`relative flex-1 w-full ${isEven ? 'md:pl-12' : 'md:pr-12 md:text-right'} ${isEven ? '' : 'md:order-2'}`}
       >
-        <h3 
+        <h3
           className="text-3xl font-bold mb-2 transition-all duration-300 origin-left group-hover/project:scale-105 group-hover/project:tracking-wide"
           style={{ color: project.themeColor }}
         >
           <span className="block transition-all duration-300 group-hover/project:drop-shadow-[0_0_15px_rgba(var(--theme-rgb),0.5)]"
-                style={{ textShadow: `0 0 0px ${project.themeColor}` }}
+            style={{ textShadow: `0 0 0px ${project.themeColor}` }}
           >
-              {project.title}
+            {project.title}
           </span>
         </h3>
 
         <p className="text-gray-400 mb-4 font-medium">{project.subtitle}</p>
-        
-        <div 
+
+        <div
           className={`relative mb-6 p-6 rounded-2xl border border-gray-800 bg-slate-900/80 overflow-hidden transition-all duration-500 group-hover/project:border-opacity-50 group-hover/project:bg-slate-900/90 group-hover/project:shadow-2xl ${isEven ? '' : 'md:text-left'}`}
           style={{ borderColor: 'rgba(31, 41, 55, 0.5)' }}
         >
           <div className="absolute inset-0 opacity-0 group-hover/project:opacity-100 transition-opacity duration-500 pointer-events-none"
-               style={{ border: `1px solid ${project.themeColor}50`, borderRadius: '1rem' }}></div>
-          
+            style={{ border: `1px solid ${project.themeColor}50`, borderRadius: '1rem' }}></div>
+
           <p className="text-gray-300 relative z-10 leading-relaxed">{project.description}</p>
         </div>
 
         <div className={`flex flex-wrap gap-2 ${isEven ? '' : 'md:justify-end'}`}>
           {project.tags.map((tag: string) => (
-            <Badge 
-              key={tag} 
-              variant="outline" 
+            <Badge
+              key={tag}
+              variant="outline"
               className="border-gray-700 bg-slate-900/50 transition-colors duration-300"
               style={{ color: project.themeColor, borderColor: `${project.themeColor}20` }}
             >
@@ -176,6 +258,21 @@ const ProjectItem = ({ project, index }: { project: any, index: number }) => {
             </Badge>
           ))}
         </div>
+
+        {/* Visit button (renders only when `project.link` is provided) */}
+        {project.link && (
+          <div className={`mt-4 ${isEven ? '' : 'md:justify-end md:flex'}`}>
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-shadow"
+              style={{ background: project.themeColor, color: '#fff', boxShadow: `0 6px 18px ${project.themeColor}33` }}
+            >
+              Visit
+            </a>
+          </div>
+        )}
       </motion.div>
 
       {/* Image / Carousel */}
@@ -187,26 +284,26 @@ const ProjectItem = ({ project, index }: { project: any, index: number }) => {
         className={`flex-1 flex items-center justify-center p-4 relative z-10 w-full ${isEven ? '' : 'md:order-1'}`}
       >
         <div className="relative w-full max-w-lg transition-all duration-500 group-hover/project:scale-[1.03]">
-          <div 
-              className="relative rounded-lg overflow-hidden aspect-[4/3]"
-              style={{ boxShadow: `0 0 0 1px ${project.themeColor}20` }}
+          <div
+            className="relative rounded-lg overflow-hidden aspect-[4/3]"
+            style={{ boxShadow: `0 0 0 1px ${project.themeColor}20` }}
           >
-              <div 
-                  className="absolute -inset-4 opacity-0 group-hover/project:opacity-100 transition-opacity duration-500 blur-2xl"
-                  style={{ background: `radial-gradient(circle, ${project.themeColor}40 0%, transparent 70%)` }} 
-              ></div>
+            <div
+              className="absolute -inset-4 opacity-0 group-hover/project:opacity-100 transition-opacity duration-500 blur-2xl"
+              style={{ background: `radial-gradient(circle, ${project.themeColor}40 0%, transparent 70%)` }}
+            ></div>
 
-              {hasCarousel ? (
-                 <ImageCarousel slides={project.slides} alt={project.title} />
-              ) : (
-                <Image
-                    src={project.image || "/placeholder.png"}
-                    alt={project.title}
-                    fill
-                    className="rounded-lg object-cover relative z-10"
-                />
-              )}
-              
+            {hasCarousel ? (
+              <ImageCarousel slides={project.slides} alt={project.title} />
+            ) : (
+              <Image
+                src={project.image || "/placeholder.png"}
+                alt={project.title}
+                fill
+                className="rounded-lg object-cover relative z-10"
+              />
+            )}
+
           </div>
         </div>
       </motion.div>
@@ -221,14 +318,14 @@ export default function LatestWorksSection() {
   const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
   const springY = useSpring(mouseY, { stiffness: 50, damping: 20 });
 
-  const x1 = useTransform(springX, [0, 1500], [0, -300]); 
+  const x1 = useTransform(springX, [0, 1500], [0, -300]);
   const y1 = useTransform(springY, [0, 1000], [0, -200]);
 
-  const x2 = useTransform(springX, [0, 1500], [0, 400]); 
-  const y2 = useTransform(springY, [0, 1000], [0, -150]); 
+  const x2 = useTransform(springX, [0, 1500], [0, 400]);
+  const y2 = useTransform(springY, [0, 1000], [0, -150]);
 
   const x3 = useTransform(springX, [0, 1500], [0, -200]);
-  const y3 = useTransform(springY, [0, 1000], [0, 300]); 
+  const y3 = useTransform(springY, [0, 1000], [0, 300]);
 
   /* =====================================================
      🌌 AMBIENT SWELLING SPOTLIGHT (NEW — ADDITIVE)
@@ -276,8 +373,8 @@ export default function LatestWorksSection() {
   }
 
   return (
-    <section 
-      id="projects" 
+    <section
+      id="projects"
       className="bg-background py-20 overflow-hidden relative w-full max-w-full"
       onMouseMove={handleMouseMove}
     >
@@ -310,15 +407,15 @@ export default function LatestWorksSection() {
           🌫️ YOUR ORIGINAL PARALLAX BLOBS (UNCHANGED)
           ===================================================== */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-[1]">
-        <motion.div 
+        <motion.div
           style={{ x: x1, y: y1 }}
           className="absolute -top-20 -left-20 w-[600px] h-[600px] bg-purple-600/20 blur-[120px] rounded-full mix-blend-screen opacity-60"
         />
-        <motion.div 
+        <motion.div
           style={{ x: x2, y: y2 }}
           className="absolute top-[10%] -right-20 w-[500px] h-[500px] bg-cyan-500/15 blur-[100px] rounded-full mix-blend-screen opacity-50"
         />
-        <motion.div 
+        <motion.div
           style={{ x: x3, y: y3 }}
           className="absolute bottom-0 left-[20%] w-[700px] h-[500px] bg-blue-700/10 blur-[130px] rounded-full mix-blend-screen opacity-50"
         />
@@ -339,13 +436,13 @@ export default function LatestWorksSection() {
 
         <div className="relative flex flex-col w-full">
           <div className="absolute top-0 bottom-0 left-1/2 w-[1px] bg-gradient-to-b from-transparent via-gray-800 to-transparent hidden md:block"></div>
-          
+
           {projects.map((project, index) => (
             <ProjectItem key={project.id} project={project} index={index} />
           ))}
         </div>
 
-        <motion.div 
+        <motion.div
           className="mt-12 bg-slate-900/30 border border-gray-800 p-8 rounded-2xl relative overflow-hidden backdrop-blur-sm"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}

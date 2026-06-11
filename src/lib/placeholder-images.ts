@@ -35,5 +35,18 @@ export const PlaceHolderImages: PlaceholderImage[] = [
     description: "Laptop showing a 'Coming Soon' message for a new project.",
     src: "/cs.png",
     imageHint: "coming soon"
-  }
+  },
+  {
+    id: "morningmute-project",
+    description: "Laptop showing the MorningMute AI Email Assistant interface.",
+    src: "",
+    imageHint: "ai email assistant"
+  },
+  {
+    id: "decivise-project",
+    description: "Laptop showing the Decivise Authentication Platform interface.",
+    src: "",
+    imageHint: "authentication platform"
+  },
+  
 ];

@@ -4,6 +4,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import {
   SiReact,
+  SiDocker,
+  SiJenkins,
   SiTailwindcss,
   SiJavascript,
   SiHtml5,
@@ -26,6 +28,7 @@ import {
   SiCanva,
   SiAdobephotoshop,
   SiAdobepremierepro,
+  SiCnn,
   // SiCsharp,
 } from "react-icons/si";
 import { Bot, Share2, Server, ServerIcon } from "lucide-react";
@@ -37,12 +40,14 @@ const sectionColors = [
     "#f59e0b", // Amber (Database)
     "#ec4899", // Pink (AI/Tools)
     "#3b82f6", // Blue (Design)
+    "#f43f5e", // Red (DevOps)
 ];
 
 const techCategories = [
   {
     title: "Languages",
-    gridCols: "lg:grid-cols-3", 
+    gridCols: "lg:grid-cols-3",
+    colSpan: 'lg:col-span-1',
     skills: [
         { name: "C++", icon: <SiCplusplus size={40} />, color: "#00599C" },
         // { name: "CSharp", icon: <SiCsharp size={40} />, color: "#55eaefff" },
@@ -53,6 +58,7 @@ const techCategories = [
   {
     title: "Frontend",
     gridCols: "lg:grid-cols-5",
+    colSpan: 'lg:col-span-2',
     skills: [
       { name: "React", icon: <SiReact size={40} />, color: "#00d8ff" },     // Neon Cyan
       { name: "HTML5", icon: <SiHtml5 size={40} />, color: "#ff5722" },    // Vibrant Orange-Red
@@ -64,6 +70,7 @@ const techCategories = [
   {
     title: "Backend",
     gridCols: "lg:grid-cols-5",
+    colSpan: 'lg:col-span-2',
     skills: [
     { name: "Node.js", icon: <SiNodedotjs size={40} />, color: "#22c55e" },  // Vibrant Green
     { name: "Express", icon: <SiExpress size={40} />, color: "#8b5cf6" },  // Violet/Purple
@@ -75,33 +82,49 @@ const techCategories = [
    {
     title: "Database",
     gridCols: "lg:grid-cols-2",
+    colSpan: 'lg:col-span-1',
     skills: [
       { name: "MongoDB", icon: <SiMongodb size={40} />, color: "#47A248" },
       { name: "MySQL", icon: <SiMysql size={40} />, color: "#4479A1" },
     ],
   },
   {
+    title: "DevOps & Cloud",
+    gridCols: "lg:grid-cols-6",
+    colSpan: 'lg:col-span-3',
+    skills: [
+        { name: "Docker", icon: <SiDocker size={40} />, color: "#2496ED" },
+        { name: "Git", icon: <SiGit size={40} />, color: "#F05032" },
+        { name: "GitHub", icon: <SiGithub size={40} />, color: "#b6ed46" },
+        { name: "AWS", icon: <SiAmazon size={40} />, color: "#f83fae" },
+        { name: "CI/CD", icon: <Server size={40} />, color: "#5dff1d" },
+        { name: "Jenkins", icon: <SiJenkins size={40} />, color: "#ad00dd" },
+    ],
+
+  },
+  {
     title: "AI/ML & Tools",
     gridCols: "lg:grid-cols-4",
+    colSpan: 'lg:col-span-2',
     skills: [
         { name: "Rasa", icon: <Bot size={40} />, color: "#7F00FF" },
         { name: "TensorFlow", icon: <SiTensorflow size={40} />, color: "#FF6F00" },
-        { name: "Git", icon: <SiGit size={40} />, color: "#F05032" },
-        { name: "Linux", icon: <SiLinux size={40} />, color: "#FCC624" },
-        { name: "AWS", icon: <SiAmazon size={40} />, color: "#1ee675" },
-        { name: "System Design", icon: <Share2 size={40} />, color: "#cccccc" },
+        { name: "CNN", icon: <SiCnn size={40} />, color: "#FCC624" },
+        { name: "AutoEncoder", icon: <Share2 size={40} />, color: "#00BFFF" },
     ],
   },
    {
     title: "Design",
-    gridCols: "lg:grid-cols-2",
+    gridCols: "lg:grid-cols-3",
+    colSpan: 'lg:col-span-1',
     skills: [
-        { name: "Canva", icon: <SiCanva size={40} />, color: "#00C4CC" },
+        // { name: "Canva", icon: <SiCanva size={40} />, color: "#00C4CC" },
         { name: "Figma", icon: <SiFigma size={40} />, color: "#F24E1E" },
         { name: "Photoshop", icon: <SiAdobephotoshop size={40} />, color: "#31A8FF" },
         { name: "Premier Pro", icon: <SiAdobepremierepro size={40} />, color: "#9999FF" },
     ],
-  },
+  }
+  
 ];
 
 const containerVariants = {
@@ -164,14 +187,13 @@ export default function TechStackSection() {
           {techCategories.map((category, index) => {
              // Pick a color based on the index (loops if you have more categories than colors)
              const sectionColor = sectionColors[index % sectionColors.length];
+             const colSpanClass = category.colSpan ?? (category.skills.length > 4 ? 'lg:col-span-2' : 'lg:col-span-1');
 
              return (
                 <motion.div
                   key={category.title}
                   // Dynamic spanning logic
-                  className={`group/category relative overflow-hidden bg-slate-900/50 border border-gray-800 rounded-2xl p-6 ${
-                    category.skills.length > 4 ? 'lg:col-span-2' : 'lg:col-span-1'
-                  }`}
+                  className={`group/category relative overflow-hidden bg-slate-900/50 border border-gray-800 rounded-2xl p-6 ${colSpanClass}`}
                   variants={cardVariants}
                   whileHover={{ y: -5 }}
                 >
